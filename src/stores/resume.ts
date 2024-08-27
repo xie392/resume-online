@@ -1,18 +1,25 @@
-import type { BaseInfo, Education, Experience } from "@/interface/store/resume";
+import type {
+  BaseInfo,
+  Education,
+  Experience,
+  ResumeNavItems,
+} from "@/interface/store/resume";
+import { Nav } from "@/lib/constants";
 import { createPersistStore } from "@/lib/store";
 
 interface Resume {
   id: string;
   name: string;
-  data: {
-    baseInfo: BaseInfo;
-    educationExp: Education[];
-    workExp: Experience[];
-  };
+  baseInfo: BaseInfo;
+  educationExp: Education[];
+  workExp: Experience[];
+  navItems: ResumeNavItems[];
 }
 
 interface ResumeState {
   resumes: Resume[];
+  lastResumeID: string;
+  lastTemplateID: string;
 }
 
 export const defaultBaseInfo: BaseInfo = {
@@ -53,28 +60,75 @@ export const defaultWorkExp: Experience = {
   department: "算法组",
 };
 
+export const defaultNavItems: ResumeNavItems[] = [
+  { title: "个人信息", name: Nav.BaseInfo, order: 1 },
+  { title: "教育经历", name: Nav.EducationExp, order: 2 },
+  { title: "工作经历", name: Nav.WorkExp, order: 3 },
+  { title: "项目经历", name: Nav.ProjectsExp, order: 4 },
+  { title: "个人优势", name: Nav.SkillExp, order: 5 },
+];
+
 const initialState: ResumeState = {
   resumes: [
     {
       id: "1",
       name: "前端开发工程师",
-      data: {
-        baseInfo: defaultBaseInfo,
-        educationExp: [defaultEducationExp],
-        workExp: [defaultWorkExp],
-      },
+      baseInfo: defaultBaseInfo,
+      educationExp: [defaultEducationExp],
+      workExp: [defaultWorkExp],
+      navItems: defaultNavItems,
     },
   ],
+  lastResumeID: "1",
+  lastTemplateID: "1",
 };
 
 export const useResumeStore = createPersistStore(
   initialState,
-  (set, get) => ({}),
+  (set, get) => ({
+    find(id: string) {
+      return get().resumes.find((item) => item.id === id);
+    },
+    updateBaseInfo(baseInfo: Partial<BaseInfo>) {
+      const { resumes, lastResumeID } = get();
+      const resume = resumes.find((item) => item.id === lastResumeID);
+      if (!resume) return;
+
+      resume.baseInfo = {
+        ...resume.baseInfo,
+        ...baseInfo,
+      };
+      set({ resumes: [...resumes] });
+    },
+    updateArrayValue<T extends keyof Resume>(
+      key: T,
+      options: {
+        index: number;
+        info: Partial<Resume[T] extends Array<infer U> ? U : never>;
+      }
+    ) {
+      const { resumes, lastResumeID } = get();
+      const resume = resumes.find((item) => item.id === lastResumeID);
+      if (!resume) return;
+
+      const { index, info } = options;
+      const array = resume[key];
+
+      if (Array.isArray(array)) {
+        const item = array[index];
+        if (item) {
+          array[index] = {
+            ...item,
+            ...info,
+          };
+          // console.log("array[index]", array[index], resume);
+          // set({ resumes });
+        }
+      }
+    },
+  }),
   {
-    name: "rs-resume",
+    name: "store-resume",
     version: 1,
-    // migrate(state, version) {
-    // return newState as any
-    // }
   }
 );

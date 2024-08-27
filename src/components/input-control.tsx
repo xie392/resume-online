@@ -38,7 +38,7 @@ const InputControl: React.FC<InputControlProps> = ({
           <Select value={item.value as string} onValueChange={updateValue}>
             <SelectTrigger>
               <SelectValue
-                className="placeholder:rs-text-muted-foreground"
+                className="placeholder:text-muted-foreground"
                 {...props}
               />
             </SelectTrigger>
@@ -55,7 +55,7 @@ const InputControl: React.FC<InputControlProps> = ({
       case InputType.Date:
         return (
           <Input
-            className="rs-select-none"
+            className="select-none"
             type="date"
             onMouseDown={(e) => e.preventDefault()}
             value={item.value as string}
@@ -67,8 +67,10 @@ const InputControl: React.FC<InputControlProps> = ({
         return (
           <div>
             <Image
-              className="rs-size-16 rs-object-cover"
+              className="size-16 object-cover"
               src={item.value as string}
+              width={60}
+              height={60}
               alt=""
             />
           </div>
@@ -76,7 +78,7 @@ const InputControl: React.FC<InputControlProps> = ({
       case InputType.Editable:
         return (
           <textarea
-            className="rs-min-h-[150px] rs-p-3 rs-border rs-border-gray-400 hover:rs-border-gray-800 focus:rs-outline-none"
+            className="min-h-[150px] p-3 border border-gray-400 hover:border-gray-800 focus:outline-none"
             placeholder={item.placeholder}
             value={item.value as string}
             onChange={(e) => updateValue(e.target.value)}
@@ -104,19 +106,16 @@ const InputControl: React.FC<InputControlProps> = ({
   return (
     <div
       className={cn(
-        "rs-flex",
+        "flex",
         {
-          "rs-flex-col rs-gap-y-1.5": direction === "vertical",
-          "rs-flex-row rs-gap-x-1.5 rs-items-center":
-            direction === "horizontal",
+          "flex-col gap-y-1.5": direction === "vertical",
+          "flex-row gap-x-1.5 items-center": direction === "horizontal",
         },
         className
       )}
     >
       {item.label && item.type !== "image" && (
-        <Label className="rs-whitespace-nowrap rs-text-gray-500">
-          {item.label}
-        </Label>
+        <Label className="whitespace-nowrap text-gray-500">{item.label}</Label>
       )}
 
       {renderControl()}

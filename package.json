@@ -20,6 +20,8 @@
     "@reactuses/core": "^5.0.21",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dexie": "^4.0.8",
+    "dexie-react-hooks": "^1.1.7",
     "framer-motion": "^11.3.28",
     "hotkeys-js": "^3.13.7",
     "hover.css": "^2.3.2",

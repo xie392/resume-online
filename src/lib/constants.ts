@@ -5,3 +5,11 @@ export enum InputType {
   Editable = "editable",
   Image = "image",
 }
+
+export enum Nav {
+  BaseInfo = "baseInfo",
+  EducationExp = "educationExp",
+  WorkExp = "workExp",
+  ProjectsExp = "projectsExp",
+  SkillExp = "skillExp",
+}
