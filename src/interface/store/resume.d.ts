@@ -33,6 +33,72 @@ export interface BaseInfo {
 }
 
 /** 教育经历 */
+export interface EducationExp {
+  /** 学校名称 */
+  school: string;
+  /** 学历 */
+  degree: string;
+  /** 开始时间 */
+  start: string;
+  /** 结束时间 */
+  end: string;
+  /** 专业 */
+  major: string;
+  /** 学位 */
+  award?: string;
+  /** 校园经历 */
+  schoolExperience?: string;
+}
+
+/** 工作经历 */
+export interface WorkExp {
+  /** 公司名称 */
+  company: string;
+  /** 职位 */
+  position: string;
+  /** 开始时间 */
+  start: string;
+  /** 结束时间 */
+  end: string;
+  /** 工作描述 */
+  description: string;
+  /** 公司地址 */
+  companyAddress?: string;
+  /** 公司行业 */
+  industry?: string;
+  /** 部门 */
+  department: string;
+}
+
+/** 项目经历 */
+export interface ProjectExp {
+  /** 项目名称 */
+  name: string;
+  /** 项目描述 */
+  description: string;
+  /** 项目地址 */
+  address?: string;
+  /** 项目开始时间 */
+  start: string;
+  /** 项目结束时间 */
+  end: string;
+  /** 项目成果 */
+  achievements?: string;
+  /**担任角色 */
+  roleName: string;
+}
+
+/** 个人优势 */
+export interface Advantage {
+  /** 优势描述 */
+  description: string;
+}
+
+/**
+ * Resume interface
+ */
+
+/** 教育经历 */
 export interface Education {
   /** 学校名称 */
   school: string;
@@ -79,13 +145,9 @@ export interface Project {
   /** 项目地址 */
   address?: string;
   /** 项目开始时间 */
-  start: Date;
+  start: string;
   /** 项目结束时间 */
-  end: Date;
-  /** 项目职责 */
-  responsibility: string[];
-  /** 项目技术栈 */
-  technologyStack: string[];
+  end: string;
   /** 项目成果 */
   achievements?: string;
   /**担任角色 */
@@ -128,4 +190,15 @@ export interface ResumeNavItems {
   title: string;
   name: Nav;
   order: number;
+}
+
+export interface Resume {
+  id: string;
+  name: string;
+  baseInfo: BaseInfo;
+  educationExp: EducationExp[];
+  workExp: WorkExp[];
+  projectExp: ProjectExp[];
+  advantage: Advantage;
+  navItems: ResumeNavItems[];
 }

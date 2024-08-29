@@ -1,20 +1,14 @@
 "use client";
 
 import { BaseInfoArray } from "@/interface/type";
-import { useResumeStore } from "@/stores/resume";
-import { useMemo, useState } from "react";
+import { useContext, useMemo } from "react";
 import CardGrid from "../common/card-grid";
 import InputControl from "@/components/input-control";
-import { BaseInfo as BaseInfoInterface } from "@/interface/store/resume";
+import CardContent from "../common/card-content";
+import { ResumeContext } from "@/context/resume-context";
 
 const BaseInfo = () => {
-  const lastResumeID = useResumeStore((state) => state.lastResumeID);
-  // const updateBaseInfo = useResumeStore((state) => state.updateBaseInfo);
-  const baseInfo = useResumeStore(
-    (state) => state.find(lastResumeID)?.baseInfo
-  );
-
-  const [info, setInfo] = useState<BaseInfoInterface>(baseInfo!);
+  const { baseInfo, updateObject } = useContext(ResumeContext);
 
   const baseInfoList = useMemo<BaseInfoArray[]>(() => {
     if (!baseInfo) return [];
@@ -25,7 +19,7 @@ const BaseInfo = () => {
         type: "text",
         placeholder: "请输入姓名",
         required: true,
-        value: info.name,
+        value: baseInfo.name,
       },
       {
         label: "头像",
@@ -33,7 +27,7 @@ const BaseInfo = () => {
         type: "image",
         placeholder: "请上传头像",
         required: true,
-        value: info.avatar,
+        value: baseInfo.avatar,
       },
       {
         label: "邮箱",
@@ -41,7 +35,7 @@ const BaseInfo = () => {
         type: "email",
         placeholder: "请输入邮箱",
         required: true,
-        value: info.email,
+        value: baseInfo.email,
       },
       {
         label: "地址",
@@ -49,7 +43,7 @@ const BaseInfo = () => {
         type: "text",
         placeholder: "请输入地址",
         required: true,
-        value: info.address,
+        value: baseInfo.address,
       },
       {
         label: "个人博客（选填）",
@@ -57,7 +51,7 @@ const BaseInfo = () => {
         type: "url",
         placeholder: "请输入个人博客",
         required: false,
-        value: info.website,
+        value: baseInfo.website,
       },
       {
         label: "Github（选填）",
@@ -65,7 +59,7 @@ const BaseInfo = () => {
         type: "url",
         placeholder: "请输入Github",
         required: false,
-        value: info.github,
+        value: baseInfo.github,
       },
       {
         label: "性别",
@@ -73,7 +67,7 @@ const BaseInfo = () => {
         type: "select",
         placeholder: "请选择性别",
         required: true,
-        value: info.gender,
+        value: baseInfo.gender,
         options: [
           {
             value: "1",
@@ -91,7 +85,7 @@ const BaseInfo = () => {
         type: "text",
         placeholder: "请输入学历",
         required: true,
-        value: info.education,
+        value: baseInfo.education,
       },
       {
         label: "微信（选填）",
@@ -99,7 +93,7 @@ const BaseInfo = () => {
         type: "text",
         placeholder: "请输入微信",
         required: true,
-        value: info.weixin,
+        value: baseInfo.weixin,
       },
       {
         label: "工作经验（年）",
@@ -107,7 +101,7 @@ const BaseInfo = () => {
         type: "number",
         placeholder: "请输入工作经验",
         required: true,
-        value: info.experience,
+        value: baseInfo.experience,
       },
       {
         label: "出生日期",
@@ -115,7 +109,7 @@ const BaseInfo = () => {
         type: "date",
         placeholder: "请选择出生日期",
         required: true,
-        value: info.birthday,
+        value: baseInfo.birthday,
       },
       {
         label: "开始工作时间",
@@ -123,38 +117,26 @@ const BaseInfo = () => {
         type: "date",
         placeholder: "请选择开始工作时间",
         required: true,
-        value: info.startWorkDate,
+        value: baseInfo.startWorkDate,
       },
     ];
-  }, [
-    baseInfo,
-    info.address,
-    info.avatar,
-    info.birthday,
-    info.education,
-    info.email,
-    info.experience,
-    info.gender,
-    info.github,
-    info.name,
-    info.startWorkDate,
-    info.website,
-    info.weixin,
-  ]);
+  }, [baseInfo]);
 
   return (
-    <CardGrid>
-      {baseInfoList.map((item) => (
-        <InputControl
-          key={item.name}
-          item={item}
-          placeholder={item.placeholder}
-          updateValue={(value) =>
-            setInfo((prev) => ({ ...prev, [item.name]: value }))
-          }
-        />
-      ))}
-    </CardGrid>
+    <CardContent title="基本信息" showDelete={false}>
+      <CardGrid>
+        {baseInfoList.map((item) => (
+          <InputControl
+            key={item.name}
+            item={item}
+            placeholder={item.placeholder}
+            updateValue={(value) =>
+              updateObject("baseInfo", { [item.name]: value })
+            }
+          />
+        ))}
+      </CardGrid>
+    </CardContent>
   );
 };
 

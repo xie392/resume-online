@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import BaseInfo from "./content/base-info";
 import EducationList from "./content/education-list";
 import WorkList from "./content/work-list";
@@ -20,8 +20,9 @@ const map = new Map<Nav, () => JSX.Element>([
 ]);
 
 const ResumeCard = () => {
+  const lastResumeID = useResumeStore((state) => state.lastResumeID);
   const items = useResumeStore((state) =>
-    state.find("1")?.navItems?.sort((a, b) => a.order - b.order)
+    state.find(lastResumeID)?.navItems?.sort((a, b) => a.order - b.order)
   );
 
   const renderContent = useCallback((key: Nav) => {
@@ -37,10 +38,6 @@ const ResumeCard = () => {
       {items &&
         items.map((item) => (
           <div className="py-5" key={item.title}>
-            <CardHeader
-              title={item.title}
-              showDelete={item.name !== Nav.BaseInfo}
-            />
             <div className="py-3 w-full">{renderContent(item.name)}</div>
           </div>
         ))}

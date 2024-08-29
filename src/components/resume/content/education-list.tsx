@@ -1,10 +1,5 @@
 "use client";
 
-import {
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import CardContent from "../common/card-content";
 import { useResumeStore } from "@/stores/resume";
 import { useMemo, useState } from "react";
@@ -15,19 +10,18 @@ import CardGrid from "../common/card-grid";
 import InputControl from "@/components/input-control";
 import { Education } from "@/interface/store/resume";
 import { cn } from "@/lib/utils";
+import {
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { defaultEducationExp } from "@/lib/default";
 
-const EducationExpCard: React.FC<{ items: BaseInfoArray[]; index: number }> = ({
-  items,
-  index,
-}) => {
-  const updateArrayValue = useResumeStore((state) => state.updateArrayValue);
-  // const addEducationExp = useResumeStore((state) => state.addEducationExp)
-  // const deleteEducationExp = useResumeStore((state) => state.deleteEducationExp)
-
-  const update = useResumeStore((state) => state.update);
-
-  const [data, setData] = useState<Education>();
-
+const EducationExpCard: React.FC<{
+  items: BaseInfoArray[];
+  updateValue: (info: Partial<Education>) => void;
+  remove: () => void;
+}> = ({ items, updateValue, remove }) => {
   return (
     <CardGrid>
       {items.map((item) => (
@@ -36,29 +30,12 @@ const EducationExpCard: React.FC<{ items: BaseInfoArray[]; index: number }> = ({
           key={item.name}
           item={item}
           placeholder={item.placeholder}
-          updateValue={(value) => {
-            updateArrayValue("educationExp", {
-              index,
-              info: {
-                [item.name]: value,
-              },
-            });
-          }}
+          updateValue={(value) => updateValue({ [item.name]: value })}
         />
       ))}
       <div className="flex justify-end gap-x-1 col-span-2">
-        <Button
-          variant="destructive"
-          size="sm"
-          // onClick={() => deleteEducationExp(index)}
-        >
+        <Button variant="destructive" size="sm" onClick={remove}>
           删除
-        </Button>
-        <Button
-          size="sm"
-          // onClick={() => addEducationExp(index)}
-        >
-          添加
         </Button>
       </div>
     </CardGrid>
@@ -66,14 +43,16 @@ const EducationExpCard: React.FC<{ items: BaseInfoArray[]; index: number }> = ({
 };
 
 const EducationList = () => {
+  // TODO: 从数据库中获取
   const lastResumeID = useResumeStore((state) => state.lastResumeID);
   const educationExp = useResumeStore(
     (state) => state.find(lastResumeID)?.educationExp
   );
 
+  const [info, setInfo] = useState<Education[]>(educationExp!);
   const educationExpList = useMemo<BaseInfoArray[][]>(() => {
-    if (!educationExp) return [];
-    return educationExp.map((item) => {
+    if (!info) return [];
+    return info.map((item) => {
       return [
         {
           label: "学校",
@@ -134,21 +113,44 @@ const EducationList = () => {
         },
       ];
     });
-  }, [educationExp]);
+  }, [info]);
+
+  const updateInfo = (index: number, info: Partial<Education>) => {
+    setInfo((prev) => {
+      const newInfo = [...prev];
+      newInfo[index] = {
+        ...newInfo[index],
+        ...info,
+      };
+      return newInfo;
+    });
+  };
 
   return (
-    <CardContent>
+    <CardContent
+      title="教育经历"
+      showAdd
+      handlerAdd={() => setInfo((prev) => [defaultEducationExp, ...prev])}
+      defaultValue={info.map((_, index) => `${index}`)}
+    >
       {educationExpList.map((item, index) => (
         <AccordionItem
-          className="flex-1 border-b-transparent w-full"
-          value={item[index].name}
+          className="flex-1 w-full border-b-transparent"
+          value={`${index}`}
           key={index}
         >
           <AccordionTrigger>
-            <h2 className="font-bold">{item[index].value}</h2>
+            <h2 className="font-bold">{info[index]?.school}</h2>
           </AccordionTrigger>
           <AccordionContent>
-            <EducationExpCard key={index} items={item} index={index} />
+            <EducationExpCard
+              key={index}
+              items={item}
+              updateValue={(info) => updateInfo(index, info)}
+              remove={() =>
+                setInfo((prev) => prev.filter((_, i) => i !== index))
+              }
+            />
           </AccordionContent>
         </AccordionItem>
       ))}
