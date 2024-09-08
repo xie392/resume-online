@@ -70,7 +70,8 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: "方正书宋简体", "方正仿宋", "手书体", system-ui, -apple-system;
+    font-family: "思源宋体-medium", "方正书宋简体", "方正仿宋", "手书体",
+      system-ui, -apple-system;
   }
 
   body::before {

@@ -1,6 +1,6 @@
 "use client";
 import { ResumeContext, ResumeContextData } from "@/context/resume-context";
-import { Advantage, BaseInfo, Resume } from "@/interface/store/resume";
+import { Resume } from "@/interface/store/resume";
 import { useResumeStore } from "@/stores/resume";
 import { useCallback, useState } from "react";
 
@@ -53,9 +53,46 @@ const ResumeProvider: React.FC<ResumeProviderProps> = ({ children, id }) => {
     [resumeData]
   );
 
+  const deleteArrayItem: ResumeContextData["deleteArrayItem"] = useCallback(
+    (key, index) => {
+      const target = resumeData[key];
+      if (!Array.isArray(target) || index >= target.length) return;
+
+      const updatedArray = [...target];
+      updatedArray.splice(index, 1);
+
+      setResumeData((prevResume) => ({
+        ...prevResume,
+        [key]: updatedArray,
+      }));
+    },
+    [resumeData]
+  );
+
+  const addArrayItem: ResumeContextData["addArrayItem"] = useCallback(
+    (key, info) => {
+      const target = resumeData[key];
+      if (!Array.isArray(target)) return;
+
+      const updatedArray = [info, ...target];
+
+      setResumeData((prevResume) => ({
+        ...prevResume,
+        [key]: updatedArray,
+      }));
+    },
+    [resumeData]
+  );
+
   return (
     <ResumeContext.Provider
-      value={{ ...resumeData, updateObject, updateArray }}
+      value={{
+        ...resumeData,
+        updateObject,
+        updateArray,
+        deleteArrayItem,
+        addArrayItem,
+      }}
     >
       {children}
     </ResumeContext.Provider>

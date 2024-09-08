@@ -1,0 +1,11 @@
+.ql-container.ql-snow {
+  font-size: inherit;
+}
+
+.ql-editor.ql-blank:before {
+  font-style: normal;
+}
+
+.ql-editor:focus-visible {
+  outline: none;
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useWindowSize } from "@reactuses/core";
+import { useElementSize, useWindowSize } from "@reactuses/core";
 import { useEffect, useRef, useState } from "react";
 import Panzoom, { PanzoomObject } from "@panzoom/panzoom";
 import { useDesignerStore } from "@/stores/designer";
@@ -14,7 +14,9 @@ interface ResumePreviewProps {
 
 const ResumePreview: React.FC<ResumePreviewProps> = ({ children }) => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const { width, height } = useWindowSize();
+
+  const ref = useRef<HTMLDivElement>(null);
+  const [width, height] = useElementSize(ref);
 
   useEffect(() => {
     // 计算基于屏幕尺寸的宽度和高度
@@ -30,7 +32,6 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ children }) => {
     setDimensions({ width: newWidth, height: newHeight });
   }, [height, width]);
 
-  const ref = useRef<HTMLDivElement>(null);
   const updateScale = useDesignerStore((state) => state.update);
   useEffect(() => {
     if (!ref.current) return;

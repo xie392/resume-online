@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "hover.css";
 import "@/styles/globals.css";
-import Tooltip from "@/components/tooltip";
+// import Tooltip from "@/components/tooltip";
 import NavHeader from "@/components/layout/nav-header";
 
 export const metadata: Metadata = {
@@ -19,7 +19,7 @@ export default function RootLayout({
       <body>
         <NavHeader />
         {children}
-        <Tooltip />
+        {/* <Tooltip /> */}
       </body>
     </html>
   );

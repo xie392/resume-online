@@ -2,7 +2,8 @@
 
 import ResumeHeader from "@/components/layout/resume-header";
 import ResumeProvider from "@/components/provider/resume-provider";
-import ResumeCard from "@/components/resume/resume-card";
+import ResumeForm from "@/components/resume-form/resume-form";
+import ResumePreview from "@/components/resume-preview/resume-preview";
 import { useResumeStore } from "@/stores/resume";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -32,12 +33,10 @@ const Resume = () => {
         <ResumeHeader />
         <div className="w-full flex">
           <div className="flex-1">
-            <ResumeCard />
+            <ResumeForm />
           </div>
           <div className="flex-1">
-            <div className="w-1/2 bg-secondary h-[calc(100vh-64px)] fixed top-16 right-0">
-              22
-            </div>
+            <ResumePreview />
           </div>
         </div>
       </div>

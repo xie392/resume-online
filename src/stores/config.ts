@@ -1,13 +1,28 @@
+import { Align, AvatarType } from "@/lib/constants";
 import { createPersistStore } from "@/lib/store";
 
 interface ConfigState {
-  /**
-   * @description
-   */
+  fontSize: number;
+  fontFamily: string;
+  lineHeight: number;
+  letterSpacing: number;
+  align: Align;
+  avatar: AvatarType;
+  padding: number;
+  themeColor: string;
+  rowGap: number;
 }
 
 const initialState: ConfigState = {
-  scale: 1,
+  fontSize: 12,
+  fontFamily: "思源宋体-medium",
+  lineHeight: 1.7,
+  letterSpacing: 0,
+  align: Align.Left,
+  avatar: AvatarType.Circle,
+  padding: 10,
+  themeColor: "#0070c9",
+  rowGap: 20,
 };
 
 export const useConfigStore = createPersistStore(

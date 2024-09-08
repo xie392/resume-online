@@ -1,4 +1,4 @@
-import type { BaseInfo, Resume } from "@/interface/store/resume";
+import type { Resume } from "@/interface/store/resume";
 import {
   defaultAdvantage,
   defaultBaseInfo,
@@ -6,7 +6,7 @@ import {
   defaultNavItems,
   defaultProjectsExp,
   defaultWorkExp,
-} from "@/lib/default";
+} from "@/config/default";
 import { createPersistStore } from "@/lib/store";
 
 interface ResumeState {

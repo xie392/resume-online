@@ -1,5 +1,6 @@
 "use client";
-import { Advantage, BaseInfo, Resume } from "@/interface/store/resume";
+import { Resume } from "@/interface/store/resume";
+import { Nav } from "@/lib/constants";
 import {
   defaultAdvantage,
   defaultBaseInfo,
@@ -7,7 +8,7 @@ import {
   defaultNavItems,
   defaultProjectsExp,
   defaultWorkExp,
-} from "@/lib/default";
+} from "@/config/default";
 import { createContext } from "react";
 
 export interface ResumeContextData extends Resume {
@@ -22,22 +23,29 @@ export interface ResumeContextData extends Resume {
       info: Partial<Resume[T] extends Array<infer U> ? U : never>;
     }
   ) => void;
+  deleteArrayItem: <T extends keyof Resume>(key: T, index: number) => void;
+  addArrayItem: <T extends keyof Resume>(
+    key: T,
+    info: Partial<Resume[T] extends Array<infer U> ? U : never>
+  ) => void;
 }
 
 export const resumeState = {
   id: "1",
   name: "前端开发工程师",
-  baseInfo: defaultBaseInfo,
-  educationExp: [defaultEducationExp],
-  workExp: [defaultWorkExp],
-  projectExp: [defaultProjectsExp],
-  advantage: defaultAdvantage,
   navItems: defaultNavItems,
+  [Nav.BaseInfo]: defaultBaseInfo,
+  [Nav.EducationExp]: [defaultEducationExp],
+  [Nav.WorkExp]: [defaultWorkExp],
+  [Nav.ProjectExp]: [defaultProjectsExp],
+  [Nav.Advantage]: defaultAdvantage,
 };
 
 export const resumeReducer = {
   updateObject: () => {},
   updateArray: () => {},
+  deleteArrayItem: () => {},
+  addArrayItem: () => {},
 };
 
 export const ResumeContext = createContext<ResumeContextData>({

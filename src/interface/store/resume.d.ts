@@ -195,10 +195,10 @@ export interface ResumeNavItems {
 export interface Resume {
   id: string;
   name: string;
-  baseInfo: BaseInfo;
-  educationExp: EducationExp[];
-  workExp: WorkExp[];
-  projectExp: ProjectExp[];
-  advantage: Advantage;
   navItems: ResumeNavItems[];
+  [Nav.BaseInfo]: BaseInfo;
+  [Nav.EducationExp]: EducationExp[];
+  [Nav.WorkExp]: WorkExp[];
+  [Nav.ProjectExp]: ProjectExp[];
+  [Nav.Advantage]: Advantage;
 }

@@ -20,12 +20,7 @@ const FooterToolbar = () => {
           <Focus size={16} />
         </Button>
 
-        <Button
-          variant="ghost"
-          size="sm"
-          data-tooltip-id="tooltip"
-          data-tooltip-html="<span class='text-xs'>缩小</span>"
-        >
+        <Button variant="ghost" size="sm">
           <Minus size={16} />
         </Button>
 
@@ -46,12 +41,7 @@ const FooterToolbar = () => {
           />
         </div>
 
-        <Button
-          variant="ghost"
-          size="sm"
-          data-tooltip-id="tooltip"
-          data-tooltip-html="<span class='text-xs'>放大</span>"
-        >
+        <Button variant="ghost" size="sm">
           <Plus size={16} />
         </Button>
       </div>
