@@ -5,6 +5,13 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/**
+ * 深拷贝对象
+
+ * @param value 
+ * @param seen 
+ * @returns 
+ */
 export function deepClone<T>(value: T, seen = new WeakMap<object, any>()): T {
   // 处理原始值、null 和 undefined
   if (value === null || typeof value !== "object") {
@@ -128,4 +135,19 @@ export function getYearMonth(date: string): string {
   const year = dateObj.getFullYear();
   const month = dateObj.getMonth() + 1;
   return `${year}-${month.toString().padStart(2, "0")}`;
+}
+
+/**
+ * 下载文件
+ * @param {string} filename 文件名
+ * @param {string} url 下载地址
+ */
+export function downloadFile(filename: string, url: string) {
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  // document.body.appendChild(link);
+  link.click();
+  // document.body.removeChild(link);
+  link.remove();
 }

@@ -20,7 +20,7 @@ const initialState: ConfigState = {
   letterSpacing: 0,
   align: Align.Left,
   avatar: AvatarType.Circle,
-  padding: 10,
+  padding: 30,
   themeColor: "#0070c9",
   rowGap: 20,
 };
